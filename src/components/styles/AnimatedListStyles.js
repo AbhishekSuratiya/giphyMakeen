@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   listContainer: {
     width: '100%',
-    marginTop: 24,
+    marginTop: 8,
   },
   loadingText: {
     fontFamily: Fonts.black,

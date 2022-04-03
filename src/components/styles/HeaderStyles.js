@@ -4,6 +4,11 @@ import Fonts from '../../theme/Fonts';
 import Colors from '../../theme/Colors';
 
 export default StyleSheet.create({
+  wrapper: {
+    height: Constants.HEADER_HEIGHT + 24,
+    flexDirection: 'row',
+    paddingBottom: 24,
+  },
   container: {
     height: Constants.HEADER_HEIGHT,
     borderBottomLeftRadius: 48,
@@ -17,7 +22,7 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
     top: Constants.HEADER_HEIGHT - Constants.SEARCH_INPUT_HEIGHT / 2,
-    left: 16,
+    paddingHorizontal: 16,
   },
   title: {
     fontFamily: Fonts.bold,
