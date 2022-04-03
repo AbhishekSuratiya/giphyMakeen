@@ -39,7 +39,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   textCard: {
-    height: Constants.GIF_CARD_HEIGHT,
+    height: Constants.GIF_CARD_HEIGHT / 2,
     justifyContent: 'center',
   },
 });

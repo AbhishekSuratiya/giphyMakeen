@@ -20,7 +20,7 @@ function Header() {
       end={{x: 1, y: 1}}
       style={Styles.container}>
       <View>
-        <Text style={Styles.title}>Hi, James!</Text>
+        <Text style={Styles.title}>Hi, Oleg!</Text>
         <Text style={Styles.description}>Find best gifs here...</Text>
       </View>
       <View style={Styles.profileContainer}>

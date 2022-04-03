@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {TextInput, View} from 'react-native';
 import Styles from './styles/SearchStyles';
 import Constants from '../constants/Constants';
@@ -6,32 +6,33 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Colors from '../theme/Colors';
 import {gifActions} from '../redux/reducers/gifReducer';
 import Api from '../api/Api';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Search = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const query = useSelector(state => state.gifStore.query);
   const dispatch = useDispatch();
-  const searchTermInvalid = searchTerm.length === 0;
+  const searchTermInvalid = query.length === 0;
 
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (!searchTermInvalid) {
-        fetch(searchTerm);
+        fetch(query);
       }
     }, 500);
+
+    if (searchTermInvalid) {
+      dispatch(gifActions.setGifList([]));
+      dispatch(gifActions.setIsFetching(false));
+    }
 
     return () => {
       clearTimeout(debounce);
     };
-  }, [searchTerm]);
-
-  useEffect(() => {
-    dispatch(gifActions.setGifList([]));
-    dispatch(gifActions.setSearchQuery(''));
-  }, [searchTermInvalid]);
+  }, [query]);
 
   const handleInput = text => {
-    setSearchTerm(text);
+    dispatch(gifActions.setIsFetching(true));
+    dispatch(gifActions.setSearchQuery(text));
   };
 
   const fetch = async query => {
@@ -39,13 +40,13 @@ const Search = () => {
       const response = await Api.fetchGifs(query);
       if (response.status === 200) {
         dispatch(gifActions.setGifList(response?.data?.data));
-        dispatch(gifActions.setSearchQuery(query));
       } else {
         throw 'Server error';
       }
     } catch (e) {
       console.error(e);
     }
+    dispatch(gifActions.setIsFetching(false));
   };
 
   return (
@@ -53,7 +54,7 @@ const Search = () => {
       <MaterialCommunityIcons
         name={'magnify'}
         size={24}
-        color={searchTerm ? Colors.purple.number100 : Colors.black.number30}
+        color={query ? Colors.purple.number100 : Colors.black.number30}
       />
       <TextInput
         style={Styles.input}

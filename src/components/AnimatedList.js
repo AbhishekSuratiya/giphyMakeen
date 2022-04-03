@@ -1,11 +1,19 @@
 import React, {useRef, useState} from 'react';
-import {Animated, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Styles from './styles/AnimatedListStyles';
 import Constants from '../constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
 import constants from '../constants/Constants';
 import Api from '../api/Api';
 import {gifActions} from '../redux/reducers/gifReducer';
+import Colors from '../theme/Colors';
 
 const spacing = constants.LIST_ITEM_SEPARATOR_HEIGHT;
 
@@ -13,6 +21,7 @@ const AnimatedList = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const gifList = useSelector(state => state.gifStore.gifList);
   const query = useSelector(state => state.gifStore.query);
+  const isFetching = useSelector(state => state.gifStore.isFetching);
 
   const [pagination, setPagination] = useState(1);
   const dispatch = useDispatch();
@@ -25,6 +34,13 @@ const AnimatedList = () => {
     );
   };
   const renderEmptyList = () => {
+    if (isFetching) {
+      return (
+        <View style={Styles.textCard}>
+          <ActivityIndicator size={'large'} color={Colors.purple.number100} />
+        </View>
+      );
+    }
     return (
       <View style={Styles.textCard}>
         {
@@ -41,7 +57,6 @@ const AnimatedList = () => {
   const renderItemSeparator = () => <View style={{height: spacing}} />;
 
   const fetch = async () => {
-    console.log({pagination});
     try {
       const response = await Api.fetchGifs(query, pagination);
       if (response.status === 200) {
@@ -53,6 +68,7 @@ const AnimatedList = () => {
     } catch (e) {
       console.error(e);
     }
+    dispatch(gifActions.setIsFetching(false));
   };
 
   const renderListItem = ({item, index}) => {
@@ -101,7 +117,7 @@ const AnimatedList = () => {
       })}
       style={Styles.listContainer}
       data={gifList}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.id + Math.random()}
       ListFooterComponent={gifList.length && renderListFooter}
       ListHeaderComponent={renderListHeader}
       renderItem={renderListItem}
