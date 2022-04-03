@@ -42,4 +42,9 @@ export default StyleSheet.create({
     height: Constants.GIF_CARD_HEIGHT / 2,
     justifyContent: 'center',
   },
+  footerButtons: {
+    flexDirection: 'row',
+    padding: 16,
+    justifyContent: 'space-around',
+  },
 });

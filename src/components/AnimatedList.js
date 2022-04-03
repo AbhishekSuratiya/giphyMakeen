@@ -15,11 +15,13 @@ import Api from '../api/Api';
 import {gifActions} from '../redux/reducers/gifReducer';
 import Colors from '../theme/Colors';
 import extractGifData from '../utils/extractGifData';
+import Button from './Button';
 
 const spacing = constants.LIST_ITEM_SEPARATOR_HEIGHT;
 
 const AnimatedList = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef(null);
   const gifList = useSelector(state => state.gifStore.gifList);
   const query = useSelector(state => state.gifStore.query);
   const isFetching = useSelector(state => state.gifStore.isFetching);
@@ -30,7 +32,22 @@ const AnimatedList = () => {
   const renderListFooter = () => {
     return (
       <View style={Styles.textCard}>
-        <Text style={Styles.listEndText}>Loading more...</Text>
+        {pagination > Constants.FORCE_TO_LOAD ? (
+          <View style={Styles.footerButtons}>
+            <Button onPress={fetch} title={'Load More'} />
+            <Button
+              onPress={() => {
+                flatListRef.current.scrollToOffset({
+                  offset: 0,
+                  animated: true,
+                });
+              }}
+              title={'Go to Top'}
+            />
+          </View>
+        ) : (
+          <Text style={Styles.listEndText}>Loading more...</Text>
+        )}
       </View>
     );
   };
@@ -119,13 +136,14 @@ const AnimatedList = () => {
       })}
       style={Styles.listContainer}
       data={gifList}
+      ref={flatListRef}
       keyExtractor={item => item.id + Math.random()}
       ListFooterComponent={gifList.length && renderListFooter}
       ListHeaderComponent={renderListHeader}
       renderItem={renderListItem}
       ListEmptyComponent={renderEmptyList}
       ItemSeparatorComponent={renderItemSeparator}
-      onEndReached={fetch}
+      onEndReached={pagination > Constants.FORCE_TO_LOAD ? null : fetch}
       onEndReachedThreshold={0.5}
     />
   );

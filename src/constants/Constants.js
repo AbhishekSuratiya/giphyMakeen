@@ -7,4 +7,5 @@ export default {
   LIST_ITEM_SEPARATOR_HEIGHT: 16,
   SEARCH_DEBOUNCE: 500,
   API_KEY: 'BvFV6zTeyxB9U8Y4SZsxL0Hn3MmHkuXq', //Need to move to env
+  FORCE_TO_LOAD: 3,
 };
