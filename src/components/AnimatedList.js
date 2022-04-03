@@ -77,7 +77,7 @@ const AnimatedList = () => {
       -1,
       0,
       (cardHeight + spacing) * index,
-      (cardHeight + spacing) * (index + 1),
+      (cardHeight + spacing) * (index + 2),
     ];
     const opacityInputRange = [
       -1,

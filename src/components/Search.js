@@ -7,6 +7,7 @@ import Colors from '../theme/Colors';
 import {gifActions} from '../redux/reducers/gifReducer';
 import Api from '../api/Api';
 import {useDispatch, useSelector} from 'react-redux';
+import constants from '../constants/Constants';
 
 const Search = () => {
   const query = useSelector(state => state.gifStore.query);
@@ -18,7 +19,7 @@ const Search = () => {
       if (!searchTermInvalid) {
         fetch(query);
       }
-    }, 500);
+    }, constants.SEARCH_DEBOUNCE);
 
     if (searchTermInvalid) {
       dispatch(gifActions.setGifList([]));

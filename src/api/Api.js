@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Constants from '../constants/Constants';
 
 const Axios = axios.create({
   baseURL: 'https://api.giphy.com/v1',
@@ -13,7 +14,7 @@ const Api = {
     return await Axios.get('/gifs/search', {
       params: {
         q: query,
-        api_key: 'BvFV6zTeyxB9U8Y4SZsxL0Hn3MmHkuXq',
+        api_key: Constants.API_KEY,
         limit: 20,
         offset: pagination * 20,
       },
