@@ -37,10 +37,10 @@ function Header() {
             style={Styles.profile}
           />
         </View>
-        <View style={Styles.search}>
-          <Search />
-        </View>
       </LinearGradient>
+      <View style={Styles.search}>
+        <Search />
+      </View>
     </View>
   );
 }
