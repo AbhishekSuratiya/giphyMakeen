@@ -14,6 +14,7 @@ import constants from '../constants/Constants';
 import Api from '../api/Api';
 import {gifActions} from '../redux/reducers/gifReducer';
 import Colors from '../theme/Colors';
+import extractGifData from '../utils/extractGifData';
 
 const spacing = constants.LIST_ITEM_SEPARATOR_HEIGHT;
 
@@ -60,7 +61,8 @@ const AnimatedList = () => {
     try {
       const response = await Api.fetchGifs(query, pagination);
       if (response.status === 200) {
-        dispatch(gifActions.setGifList([...gifList, ...response?.data?.data]));
+        const extractedData = extractGifData(response?.data?.data);
+        dispatch(gifActions.setGifList([...gifList, ...extractedData]));
         setPagination(pagination => pagination + 1);
       } else {
         throw 'Server error';
@@ -106,10 +108,7 @@ const AnimatedList = () => {
           style={[StyleSheet.absoluteFillObject, {justifyContent: 'center'}]}>
           <Text style={Styles.loadingText}>Loading ...</Text>
         </View>
-        <Image
-          source={{uri: item?.images?.original?.url}}
-          style={Styles.image}
-        />
+        <Image source={{uri: item?.url}} style={Styles.image} />
       </Animated.View>
     );
   };

@@ -8,6 +8,7 @@ import {gifActions} from '../redux/reducers/gifReducer';
 import Api from '../api/Api';
 import {useDispatch, useSelector} from 'react-redux';
 import constants from '../constants/Constants';
+import extractGifData from '../utils/extractGifData';
 
 const Search = () => {
   const query = useSelector(state => state.gifStore.query);
@@ -40,7 +41,8 @@ const Search = () => {
     try {
       const response = await Api.fetchGifs(query);
       if (response.status === 200) {
-        dispatch(gifActions.setGifList(response?.data?.data));
+        const extractedData = extractGifData(response?.data?.data);
+        dispatch(gifActions.setGifList(extractedData));
       } else {
         throw 'Server error';
       }
