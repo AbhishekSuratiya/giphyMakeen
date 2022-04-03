@@ -6,7 +6,8 @@ const store = configureStore({
   reducer: {
     gifStore: gifSlice.reducer,
   },
-  middleware: [logger],
+  // Uncomment this to view redux logs
+  // middleware: [logger],
 });
 
 export default store;
