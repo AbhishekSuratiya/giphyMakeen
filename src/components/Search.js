@@ -11,17 +11,23 @@ import {useDispatch} from 'react-redux';
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
+  const searchTermInvalid = searchTerm.length === 0;
+
   useEffect(() => {
     const debounce = setTimeout(() => {
-      if (searchTerm.length) {
+      if (!searchTermInvalid) {
         fetch(searchTerm);
       }
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(debounce);
     };
   }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(gifActions.setGifList([]));
+  }, [searchTermInvalid]);
 
   const handleInput = text => {
     setSearchTerm(text);
