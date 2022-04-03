@@ -29,7 +29,7 @@ const AnimatedList = () => {
   const renderListFooter = () => {
     return (
       <View style={Styles.textCard}>
-        <Text style={Styles.listEndText}>No more gifs !!</Text>
+        <Text style={Styles.listEndText}>Loading more...</Text>
       </View>
     );
   };
@@ -106,7 +106,10 @@ const AnimatedList = () => {
           style={[StyleSheet.absoluteFillObject, {justifyContent: 'center'}]}>
           <Text style={Styles.loadingText}>Loading ...</Text>
         </View>
-        <Image source={{uri: item.images.original.url}} style={Styles.image} />
+        <Image
+          source={{uri: item?.images?.original?.url}}
+          style={Styles.image}
+        />
       </Animated.View>
     );
   };

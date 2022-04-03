@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   loadingText: {
     fontFamily: Fonts.black,
-    color: Colors.grey.number40,
+    color: Colors.black.number10,
     fontSize: 32,
     textAlign: 'center',
   },
