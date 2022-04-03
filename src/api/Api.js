@@ -9,11 +9,13 @@ const Axios = axios.create({
 });
 
 const Api = {
-  fetchGifs: async query => {
+  fetchGifs: async (query, pagination = 0) => {
     return await Axios.get('/gifs/search', {
       params: {
         q: query,
         api_key: 'BvFV6zTeyxB9U8Y4SZsxL0Hn3MmHkuXq',
+        limit: 20,
+        offset: pagination * 20,
       },
     });
   },

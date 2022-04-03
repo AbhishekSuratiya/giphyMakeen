@@ -14,6 +14,12 @@ export default StyleSheet.create({
     width: '100%',
     marginTop: 24,
   },
+  loadingText: {
+    fontFamily: Fonts.black,
+    color: Colors.grey.number40,
+    fontSize: 32,
+    textAlign: 'center',
+  },
   card: {
     height: Constants.GIF_CARD_HEIGHT,
     marginHorizontal: 16,
@@ -32,7 +38,7 @@ export default StyleSheet.create({
     fontSize: 32,
     textAlign: 'center',
   },
-  footer: {
+  textCard: {
     height: Constants.GIF_CARD_HEIGHT,
     justifyContent: 'center',
   },

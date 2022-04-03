@@ -6,7 +6,7 @@ import Constants from '../../constants/Constants';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white.number100,
+    backgroundColor: Colors.grey.number0,
     alignItems: 'center',
   },
   listContainer: {

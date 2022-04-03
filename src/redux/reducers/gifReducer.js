@@ -2,7 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   gifList: [],
-  count: 0,
+  pagination: 0,
+  query: '',
 };
 
 const gifSlice = createSlice({
@@ -12,8 +13,11 @@ const gifSlice = createSlice({
     setGifList(state, action) {
       state.gifList = action.payload;
     },
-    setGifData(state, action) {
-      state.gifData = action.payload;
+    setPagination(state) {
+      state.pagination = state.pagination + 1;
+    },
+    setSearchQuery(state, action) {
+      state.query = action.payload;
     },
   },
 });

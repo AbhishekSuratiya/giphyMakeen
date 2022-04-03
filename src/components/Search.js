@@ -27,6 +27,7 @@ const Search = () => {
 
   useEffect(() => {
     dispatch(gifActions.setGifList([]));
+    dispatch(gifActions.setSearchQuery(''));
   }, [searchTermInvalid]);
 
   const handleInput = text => {
@@ -38,6 +39,7 @@ const Search = () => {
       const response = await Api.fetchGifs(query);
       if (response.status === 200) {
         dispatch(gifActions.setGifList(response?.data?.data));
+        dispatch(gifActions.setSearchQuery(query));
       } else {
         throw 'Server error';
       }
