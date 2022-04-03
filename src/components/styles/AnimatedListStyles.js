@@ -17,18 +17,23 @@ export default StyleSheet.create({
   card: {
     height: Constants.GIF_CARD_HEIGHT,
     marginHorizontal: 16,
-    marginVertical: 8,
     backgroundColor: Colors.purple.number0,
     ...Elevation.style.number12,
     borderRadius: 12,
     overflow: 'hidden',
   },
-  image: {width: '100%', height: '100%'},
+  image: {
+    width: '100%',
+    height: '100%',
+  },
   listEndText: {
     fontFamily: Fonts.black,
     color: Colors.purple.number100,
     fontSize: 32,
-    marginTop: 48,
     textAlign: 'center',
+  },
+  footer: {
+    height: Constants.GIF_CARD_HEIGHT,
+    justifyContent: 'center',
   },
 });

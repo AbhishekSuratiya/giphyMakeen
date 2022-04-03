@@ -4,15 +4,17 @@ import Styles from './styles/SearchStyles';
 import Constants from '../constants/Constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../theme/Colors';
-import Axios from '../api/Api';
+import {gifActions} from '../redux/reducers/gifReducer';
+import Api from '../api/Api';
+import {useDispatch} from 'react-redux';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (searchTerm.length) {
-        //call api
+        fetch(searchTerm);
       }
     }, 1000);
 
@@ -25,19 +27,18 @@ const Search = () => {
     setSearchTerm(text);
   };
 
-  const fetchGifs = async query => {
-    const response = await Axios.get('/search', {
-      params: {
-        q: query,
-        api_key: 'BvFV6zTeyxB9U8Y4SZsxL0Hn3MmHkuXq',
-      },
-    });
-    console.log(response);
+  const fetch = async query => {
+    try {
+      const response = await Api.fetchGifs(query);
+      if (response.status === 200) {
+        dispatch(gifActions.setGifList(response?.data?.data));
+      } else {
+        throw 'Server error';
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
-
-  useEffect(() => {
-    fetchGifs('apple');
-  }, []);
 
   return (
     <View style={Styles.container}>

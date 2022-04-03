@@ -2,44 +2,40 @@ import React, {useRef} from 'react';
 import {Animated, Image, Text, View} from 'react-native';
 import Styles from './styles/AnimatedListStyles';
 import Constants from '../constants/Constants';
+import {useSelector} from 'react-redux';
+import constants from '../constants/Constants';
+
+const spacing = constants.LIST_ITEM_SEPARATOR_HEIGHT;
 
 const AnimatedList = () => {
-  const data = [
-    {key: 1, name: 'abhishek'},
-    {key: 2, name: 'abhishek'},
-    {key: 3, name: 'abhishek'},
-    {key: 4, name: 'abhishek'},
-    {key: 5, name: 'abhishek'},
-    {key: 6, name: 'abhishek'},
-    {key: 7, name: 'abhishek'},
-    {key: 8, name: 'abhishek'},
-    {key: 9, name: 'abhishek'},
-    {key: 10, name: 'abhishek'},
-  ];
-
   const scrollY = useRef(new Animated.Value(0)).current;
+  const gifList = useSelector(state => state.gifStore.gifList);
 
   const renderListFooter = () => {
     return (
-      <View style={{height: 380}}>
+      <View style={Styles.footer}>
         <Text style={Styles.listEndText}>No more gifs !!</Text>
       </View>
     );
   };
+
+  const renderListHeader = () => <View style={{height: spacing}} />;
+
+  const renderItemSeparator = () => <View style={{height: spacing}} />;
 
   const renderListItem = ({item, index}) => {
     const cardHeight = Constants.GIF_CARD_HEIGHT;
     const scaleInputRange = [
       -1,
       0,
-      cardHeight * index,
-      cardHeight * (index + 1),
+      (cardHeight + spacing) * index,
+      (cardHeight + spacing) * (index + 1),
     ];
     const opacityInputRange = [
       -1,
       0,
-      cardHeight * index,
-      cardHeight * (index + 1),
+      (cardHeight + spacing) * index,
+      (cardHeight + spacing) * (index + 1),
     ];
     const scale = scrollY.interpolate({
       inputRange: scaleInputRange,
@@ -58,10 +54,7 @@ const AnimatedList = () => {
             transform: [{scale}],
           },
         ]}>
-        <Image
-          source={{uri: `https://picsum.photos/seed/${index * 2}/600/250`}}
-          style={Styles.image}
-        />
+        <Image source={{uri: item.images.original.url}} style={Styles.image} />
       </Animated.View>
     );
   };
@@ -71,9 +64,12 @@ const AnimatedList = () => {
         useNativeDriver: true,
       })}
       style={Styles.listContainer}
-      data={data}
-      // ListFooterComponent={renderListFooter}
+      data={gifList}
+      keyExtractor={item => item.id}
+      ListFooterComponent={renderListFooter}
+      ListHeaderComponent={renderListHeader}
       renderItem={renderListItem}
+      ItemSeparatorComponent={renderItemSeparator}
       onEndReached={() => {
         console.log('onEndReached');
       }}
